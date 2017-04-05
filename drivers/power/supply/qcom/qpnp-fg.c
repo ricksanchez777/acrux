@@ -1518,11 +1518,6 @@ static int fg_mem_masked_write(struct fg_chip *chip, u16 addr,
 	return rc;
 }
 
-static int soc_to_setpoint(int soc)
-{
-	return DIV_ROUND_CLOSEST(soc * 255, 100);
-}
-
 static void batt_to_setpoint_adc(int vbatt_mv, u8 *data)
 {
 	int val;
@@ -6156,7 +6151,7 @@ static int fg_common_hw_init(struct fg_chip *chip)
 	}
 
 	rc = fg_mem_masked_write(chip, settings[FG_MEM_DELTA_SOC].address, 0xFF,
-			soc_to_setpoint(settings[FG_MEM_DELTA_SOC].value),
+			settings[FG_MEM_DELTA_SOC].value,
 			settings[FG_MEM_DELTA_SOC].offset);
 	if (rc) {
 		pr_err("failed to write delta soc rc=%d\n", rc);
