@@ -217,6 +217,7 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	atomic_andnot(BIT(dev->cpu), &idle_cpus);
 	start_critical_timings();
 
+	sched_clock_idle_wakeup_event(0);
 	time_end = ns_to_ktime(local_clock());
 	trace_cpu_idle_rcuidle(PWR_EVENT_EXIT, dev->cpu);
 
