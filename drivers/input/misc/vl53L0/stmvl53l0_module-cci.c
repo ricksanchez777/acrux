@@ -368,10 +368,11 @@ static struct platform_driver stmvl53l0_platform_driver = {
 	.probe = stmvl53l0_platform_probe,
 	.remove = stmvl53l0_platform_remove,
 	.driver = {
-		   .name = STMVL53L0_DRV_NAME,
-		   .owner = THIS_MODULE,
-		   .of_match_table = st_stmvl53l0_dt_match,
-		   },
+		.name = STMVL53L0_DRV_NAME,
+		.owner = THIS_MODULE,
+		.of_match_table = st_stmvl53l0_dt_match,
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+	},
 };
 
 int stmvl53l0_power_up_cci(void *cci_object, unsigned int *preset_flag)
