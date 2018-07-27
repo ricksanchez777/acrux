@@ -210,6 +210,25 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
 		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
 				"QUIRK: Resetting on resume");
+	if (pdev->vendor == PCI_VENDOR_ID_FRESCO_LOGIC &&
+		pdev->device == PCI_DEVICE_ID_FRESCO_LOGIC_FL1100) {
+		xhci->quirks |= XHCI_LPM_SUPPORT | XHCI_SIBEAM_QUIRK;
+		//Apply Low Power Setting for FL1100LX.
+		xhci_dbg(xhci, "Apply Low Power Setting for FL1100LX.\n");
+		reg = (void __iomem *) xhci->cap_regs + 0x80E0;
+		val = readl(reg);
+		val |= (1 << 15);
+		writel(val, reg);
+		readl(reg);
+		// Apply FS USB timeout quirk for FL1100LX.
+		xhci_dbg(xhci, "Apply FS USB timeout quirk for FL1100LX.\n");
+		reg = (void __iomem *) xhci->cap_regs + 0x813C;
+		val = readl(reg);
+		val &= 0xffc003ff;
+		val |= 0x32000;
+		writel(val, reg);
+		readl(reg);
+	}
 }
 
 #ifdef CONFIG_ACPI
