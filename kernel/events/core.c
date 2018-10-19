@@ -9700,7 +9700,7 @@ static void perf_event_exit_cpu_context(int cpu)
 		cpuctx = per_cpu_ptr(pmu->pmu_cpu_context, cpu);
 		ctx = &cpuctx->ctx;
 
-		/* Cancel the mux hrtimer to avoid CPU migration */
+ 		/* Cancel the mux hrtimer to avoid CPU migration */
 		if (pmu->task_ctx_nr != perf_sw_context) {
 			raw_spin_lock_irqsave(&cpuctx->hrtimer_lock, flags);
 			hrtimer_cancel(&cpuctx->hrtimer);
@@ -9708,7 +9708,6 @@ static void perf_event_exit_cpu_context(int cpu)
 			raw_spin_unlock_irqrestore(&cpuctx->hrtimer_lock,
 							flags);
 		}
-
 		mutex_lock(&ctx->mutex);
 		/*
 		 * If keeping events across hotplugging is supported, do not
