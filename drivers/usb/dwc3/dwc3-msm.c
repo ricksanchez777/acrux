@@ -4022,10 +4022,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 				mdwc->otg_state = OTG_STATE_A_IDLE;
 				goto ret;
 			}
-			if (mdwc->no_wakeup_src_in_hostmode) {
-				pm_wakeup_event(mdwc->dev,
-					DWC3_WAKEUP_SRC_TIMEOUT);
-			}
+			pm_wakeup_event(mdwc->dev, DWC3_WAKEUP_SRC_TIMEOUT);
 		}
 		break;
 
@@ -4043,10 +4040,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 			dbg_event(0xFF, "XHCIResume", 0);
 			if (dwc)
 				pm_runtime_resume(&dwc->xhci->dev);
-			if (mdwc->no_wakeup_src_in_hostmode) {
-				pm_wakeup_event(mdwc->dev,
-					DWC3_WAKEUP_SRC_TIMEOUT);
-			}
+			pm_wakeup_event(mdwc->dev, DWC3_WAKEUP_SRC_TIMEOUT);
 		}
 		break;
 
