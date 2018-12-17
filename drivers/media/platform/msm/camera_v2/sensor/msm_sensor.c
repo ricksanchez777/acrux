@@ -206,23 +206,6 @@ int msm_sensor_power_up(struct msm_sensor_ctrl_t *s_ctrl)
 		if (rc < 0)
 			return rc;
 
-		if (!s_ctrl->is_probe_succeed) {
-			rc = msm_sensor_match_vendor_id(s_ctrl);
-			if (rc < 0) {
-				msm_camera_power_down(power_info,
-					s_ctrl->sensor_device_type, sensor_i2c_client);
-				msleep(20);
-				continue;
-			}
-			rc = msm_sensor_match_vcm_id(s_ctrl);
-			if (rc < 0) {
-				msm_camera_power_down(power_info,
-					s_ctrl->sensor_device_type, sensor_i2c_client);
-				msleep(20);
-				continue;
-			}
-		}
-
 		for(check_id_retry = 0; check_id_retry < 3; check_id_retry++) {
 			rc = msm_sensor_check_id(s_ctrl);
 			if (!rc) break;
