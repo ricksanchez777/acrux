@@ -63,20 +63,14 @@ ifeq ($(CONFIG_COMPAT_VDSO), y)
   endif
 endif
 
-KBUILD_CFLAGS	+= $(call cc-option,-march=armv8-a+crypto+crc,) $(call cc-option,-mcpu=cortex-a53+crypto+crc,)
-
-GEN_FLAGS := -O3 -fopenmp
-
-KBUILD_CFLAGS	+= $(GEN_FLAGS)
-
-ifeq ($(cc-name),clang)
+ifeq ($(CONFIG_POLLY_CLANG), y)
 KBUILD_CFLAGS	+= -mllvm -polly \
-					-mllvm -polly-run-dce \
-					-mllvm -polly-run-inliner \
-					-mllvm -polly-opt-fusion=max \
-					-mllvm -polly-ast-use-context \
-					-mllvm -polly-vectorizer=stripmine \
-					-mllvm -polly-detect-keep-going
+			-mllvm -polly-run-dce \
+			-mllvm -polly-run-inliner \
+			-mllvm -polly-opt-fusion=max \
+			-mllvm -polly-ast-use-context \
+			-mllvm -polly-vectorizer=stripmine \
+			-mllvm -polly-detect-keep-going
 
 endif
 
