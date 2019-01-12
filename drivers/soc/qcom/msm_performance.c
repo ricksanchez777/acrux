@@ -26,6 +26,7 @@
 #include <linux/input.h>
 #include <linux/kthread.h>
 
+#ifndef CONFIG_MSM_PERFORMANCE_CPUFREQ_LIMITS_VOTING_ONLY
 static unsigned int use_input_evts_with_hi_slvt_detect;
 static struct mutex managed_cpus_lock;
 
@@ -390,6 +391,7 @@ static const struct kernel_param_ops param_ops_managed_online_cpus = {
 device_param_cb(managed_online_cpus, &param_ops_managed_online_cpus,
 							NULL, 0444);
 #endif
+#endif // CONFIG_MSM_PERFORMANCE_CPUFREQ_LIMITS_VOTING_ONLY
 /*
  * Userspace sends cpu#:min_freq_value to vote for min_freq_value as the new
  * scaling_min. To withdraw its vote it needs to enter cpu#:0
