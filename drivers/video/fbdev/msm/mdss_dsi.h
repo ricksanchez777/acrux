@@ -677,6 +677,47 @@ struct mdss_dsi_ctrl_pdata {
 	bool update_phy_timing; /* flag to recalculate PHY timings */
 
 	bool phy_power_off;
+
+	bool dsi_cmd_hs;
+
+	int disp_err_fg_gpio;
+	struct delayed_work err_fg_handler;
+
+	int disp_err_detect_gpio;
+	struct delayed_work err_int_work;
+	bool rdy_err_detect;
+	bool err_detect_irq_en;
+
+	/* alpm brightness setting */
+	struct dsi_panel_cmds alpm_mode_cmds[ALPM_MODE_MAX];
+	enum alpm_mode_type alpm_mode;
+	u32 alpm_bl_threshold;
+	u32 alpm_dim_threshold;
+
+	/* rgb calibration */
+	struct dsi_cmd_pos rgb_gain_pos;
+	struct rgb_gain rgb_gain;
+
+	struct notifier_block wake_notif;
+	struct task_struct *wake_thread;
+	struct completion wake_comp;
+	wait_queue_head_t wake_waitq;
+	atomic_t disp_en;
+};
+
+enum {
+	MDSS_DISPLAY_OFF,
+	MDSS_DISPLAY_WAKING,
+	MDSS_DISPLAY_ON
+};
+
+struct te_data {
+	bool irq_enabled;
+	bool err_fg;
+	int irq;
+	unsigned long ts_vsync;
+	unsigned long ts_last_check;
+	spinlock_t spinlock;
 };
 
 struct dsi_status_data {
