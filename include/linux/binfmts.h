@@ -1,4 +1,4 @@
-#ifndef _LINUX_BINFMTS_H
+)#ifndef _LINUX_BINFMTS_H
 #define _LINUX_BINFMTS_H
 
 #include <linux/sched.h>
