@@ -14848,6 +14848,13 @@ bool dbmdx_chk_hw(void)
 	printk(KERN_INFO "%s: hw_platform = %d, major <%d>, minor <%d>.\n",
 			__func__, hw_platform, hw_major, hw_minor);
 
+	if (HARDWARE_PLATFORM_NITROGEN == hw_platform) {
+		if ((hw_major == 1 && hw_minor <= 5) || (hw_major == 0)) {
+			printk("%s: Hardware does support dbmd4.\n", __func__);
+			return true;
+		}
+	}
+
 	printk("%s: Hardware does NOT support dbmd4.\n", __func__);
 
 	return false;
