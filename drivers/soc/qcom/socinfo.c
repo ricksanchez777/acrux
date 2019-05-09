@@ -67,6 +67,9 @@ enum {
 	HW_PLATFORM_STP = 23,
 	HW_PLATFORM_SBC = 24,
 	HW_PLATFORM_ADP = 25,
+	HW_PLATFORM_C8 = 30,
+	HW_PLATFORM_E4_636 = 32,
+	HW_PLATFORM_E4_660 = 33,
 	HW_PLATFORM_D2T = 34,
 	HW_PLATFORM_INVALID
 };
@@ -89,6 +92,9 @@ const char *hw_platform[] = {
 	[HW_PLATFORM_STP] = "STP",
 	[HW_PLATFORM_SBC] = "SBC",
 	[HW_PLATFORM_ADP] = "ADP",
+	[HW_PLATFORM_C8] = "JASON",
+	[HW_PLATFORM_E4_636] = "NITROGEN",
+	[HW_PLATFORM_E4_660] = "CARBON",
 	[HW_PLATFORM_D2T] = "PLATINA",
 };
 
@@ -1584,7 +1590,13 @@ static void socinfo_select_format(void)
 uint32_t get_hw_version_platform(void)
 {
 	uint32_t hw_type = socinfo_get_platform_type();
-	if (hw_type == HW_PLATFORM_D2T)
+	if (hw_type == HW_PLATFORM_C8)
+		return HARDWARE_PLATFORM_JASON;
+	else if (hw_type == HW_PLATFORM_E4_636)
+		return HARDWARE_PLATFORM_NITROGEN;
+	else if (hw_type == HW_PLATFORM_E4_660)
+		return HARDWARE_PLATFORM_CARBON;
+	else if (hw_type == HW_PLATFORM_D2T)
 		return HARDWARE_PLATFORM_PLATINA;
 	else
 		return HARDWARE_PLATFORM_UNKNOWN;
