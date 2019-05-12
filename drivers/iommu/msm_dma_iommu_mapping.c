@@ -165,19 +165,15 @@ static struct msm_iommu_meta *msm_iommu_meta_create(struct dma_buf *dma_buf)
 	return meta;
 }
 
-static void msm_iommu_meta_put(struct msm_iommu_meta *meta);
-
-static inline int __msm_dma_map_sg(struct device *dev, struct scatterlist *sg,
-				   int nents, enum dma_data_direction dir,
-				   struct dma_buf *dma_buf,
-				   unsigned long attrs)
+static int __msm_dma_map_sg(struct device *dev, struct scatterlist *sg,
+			    int nents, enum dma_data_direction dir,
+			    struct dma_buf *dma_buf, unsigned long attrs)
 {
-	bool late_unmap = !dma_get_attr(DMA_ATTR_NO_DELAYED_UNMAP, attrs);
+	bool late_unmap = ((attrs & DMA_ATTR_NO_DELAYED_UNMAP) == 0 );
 	bool extra_meta_ref_taken = false;
-	int late_unmap = ((attrs & DMA_ATTR_NO_DELAYED_UNMAP) == 0 );
-
-	mutex_lock(&msm_iommu_map_mutex);
-	iommu_meta = msm_iommu_meta_lookup(dma_buf->priv);
+	struct msm_iommu_meta *meta;
+	struct msm_iommu_map *map;
+	int ret = 0;
 
 	meta = msm_iommu_meta_lookup_get(dma_buf->priv);
 	if (!meta) {
@@ -202,6 +198,7 @@ static inline int __msm_dma_map_sg(struct device *dev, struct scatterlist *sg,
 		 */
 		if (is_device_dma_coherent(dev))
 			dmb(ish);
+		ret = nents;
 	} else {
 		map = kmalloc(sizeof(*map), GFP_KERNEL);
 		if (!map) {
@@ -227,7 +224,7 @@ static inline int __msm_dma_map_sg(struct device *dev, struct scatterlist *sg,
 		msm_iommu_add(meta, map);
 	}
 
-	return nents;
+	return ret;
 
 release_meta:
 	if (extra_meta_ref_taken)
@@ -242,8 +239,8 @@ release_meta:
  * unmapping.
  */
 int msm_dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
-		   enum dma_data_direction dir, struct dma_buf *dma_buf,
-		   unsigned long attrs)
+			 enum dma_data_direction dir, struct dma_buf *dma_buf,
+			 unsigned long attrs)
 {
 	if (IS_ERR_OR_NULL(dev)) {
 		pr_err("%s: dev pointer is invalid\n", __func__);
@@ -267,6 +264,7 @@ EXPORT_SYMBOL(msm_dma_map_sg_attrs);
 void msm_dma_unmap_sg(struct device *dev, struct scatterlist *sgl, int nents,
 		      enum dma_data_direction dir, struct dma_buf *dma_buf)
 {
+	struct msm_iommu_map *map;
 	struct msm_iommu_meta *meta;
 	struct msm_iommu_map *map;
 
