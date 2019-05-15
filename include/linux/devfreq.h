@@ -161,7 +161,7 @@ struct devfreq {
 	struct list_head node;
 
 	struct mutex lock;
-	struct mutex sysfs_lock;
+	struct mutex event_lock;
 	struct device dev;
 	struct devfreq_dev_profile *profile;
 	const struct devfreq_governor *governor;
@@ -185,6 +185,8 @@ struct devfreq {
 	unsigned int *trans_table;
 	unsigned long *time_in_state;
 	unsigned long last_stat_updated;
+
+	bool dev_suspended;
 };
 
 #if defined(CONFIG_PM_DEVFREQ)
