@@ -540,7 +540,7 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
 
 	atomic_inc(&isw_nr_in_flight);
 
-	goto out_unlock;
+	return;
 
 out_free:
 	if (isw->new_wb)
