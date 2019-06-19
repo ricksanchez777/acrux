@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2009-2018, The Linux Foundation. All rights reserved.
- * Copyright (C) 2019 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -256,9 +255,6 @@ uint32_t socinfo_get_pmic_die_revision(void);
 int __init socinfo_init(void) __must_check;
 
 #define HARDWARE_PLATFORM_UNKNOWN 0
-#define HARDWARE_PLATFORM_JASON 8
-#define HARDWARE_PLATFORM_NITROGEN 4636
-#define HARDWARE_PLATFORM_CARBON 4660
 #define HARDWARE_PLATFORM_PLATINA 2
 
 #define HW_MAJOR_VERSION_SHIFT 16
