@@ -46,6 +46,9 @@
 #include <linux/file.h>
 #include <linux/kthread.h>
 #include <linux/dma-buf.h>
+#include <linux/interrupt.h>
+#include <linux/wakelock.h>
+#include <linux/mdss_io_util.h>
 #include <linux/cpu_input_boost.h>
 #include <linux/devfreq_boost.h>
 #include <sync.h>
