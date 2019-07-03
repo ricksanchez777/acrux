@@ -48,6 +48,8 @@
 #include <linux/vmalloc.h>
 #include <linux/uaccess.h>
 
+#define WAKEUP_GESTURE 1
+
 #define SYNAPTICS_TCM_ID_PRODUCT (1 << 0)
 #define SYNAPTICS_TCM_ID_VERSION 0x0100
 #define SYNAPTICS_TCM_ID_SUBVERSION 0
