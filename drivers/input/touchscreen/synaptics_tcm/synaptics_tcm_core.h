@@ -48,8 +48,6 @@
 #include <linux/vmalloc.h>
 #include <linux/uaccess.h>
 
-#define WAKEUP_GESTURE 1
-
 #define SYNAPTICS_TCM_ID_PRODUCT (1 << 0)
 #define SYNAPTICS_TCM_ID_VERSION 0x0100
 #define SYNAPTICS_TCM_ID_SUBVERSION 0
@@ -146,6 +144,8 @@ static struct device_attribute dev_attr_##a_name = \
 		CONCAT(m_name##_sysfs, _##a_name##_store));
 
 #define ATTRIFY(a_name) (&dev_attr_##a_name)
+
+#define WAKEUP_GESTURE
 
 enum module_type {
 	TCM_TOUCH = 0,
